@@ -3,29 +3,11 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
+#include "logging.h"
 #include "ei.h"
 
 ei_cnode ec;
 int fd = -1;
-
-static void die(const char *fmt, ...)
-{
-	va_list ap;
-	va_start(ap, fmt);
-	vfprintf(stderr, fmt, ap);
-	fputs("\n", stderr);
-	va_end(ap);
-	exit(1);
-}
-
-static void error(const char *fmt, ...)
-{
-	va_list ap;
-	va_start(ap, fmt);
-	vfprintf(stderr, fmt, ap);
-	fputs("\n", stderr);
-	va_end(ap);
-}
 
 static void usage(void) {
 	die("USAGE: erlua-node node_name cookie server_node_name");

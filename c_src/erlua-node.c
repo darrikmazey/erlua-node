@@ -2,9 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <assert.h>
 
 #include "logging.h"
 #include "ei.h"
+#include "lua.h"
+#include "lualib.h"
+#include "lauxlib.h"
 
 ei_cnode ec;
 int fd = -1;
@@ -28,6 +32,16 @@ int main(int argc, char **argv)
 	fd = ei_connect(&ec, argv[3]);
 	if (fd < 0) {
 		die("ERROR: failed to connect to erlang node: %s", argv[3]);
+	}
+
+	lua_State *L = luaL_newstate();
+	luaL_openlibs(L);
+
+	assert( lua_gettop(L) == 0 );
+
+	int stop = 0;
+
+	while (!stop) {
 	}
 
 	return(0);

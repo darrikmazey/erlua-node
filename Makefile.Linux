@@ -1,5 +1,5 @@
 ERL_LIB=/usr/lib/erlang/lib/erl_interface-3.6.3
-CFLAGS=-Wall -I/usr/local/include -I$(ERL_LIB)/include -I./include
+CFLAGS=-Wall -I/usr/local/include -I$(ERL_LIB)/include -I$(ERL_LIB)/src/misc -I./include
 LDFLAGS=-L. -L$(ERL_LIB)/lib
 LDLIBS=-llua -lpthread
 STATICLIBS=$(ERL_LIB)/lib/libei.a

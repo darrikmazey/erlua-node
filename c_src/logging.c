@@ -24,3 +24,12 @@ void error(const char *fmt, ...)
 	va_end(ap);
 }
 
+void info(const char *fmt, ...)
+{
+	va_list ap;
+	va_start(ap, fmt);
+	vfprintf(stderr, fmt, ap);
+	fputs("\n", stderr);
+	va_end(ap);
+}
+

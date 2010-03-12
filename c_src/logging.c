@@ -33,3 +33,27 @@ void info(const char *fmt, ...)
 	va_end(ap);
 }
 
+void wlog(const char *fmt, ...)
+{
+	FILE *file;
+	file = fopen("erlua-node.log", "a+");
+	va_list ap;
+	va_start(ap, fmt);
+	vfprintf(file, fmt, ap);
+	fputs("\n", file);
+	va_end(ap);
+	fclose(file);
+}
+
+void dlog(const char *fmt, ...)
+{
+	FILE *file;
+	file = fopen("erlua-node.log", "a+");
+	va_list ap;
+	va_start(ap, fmt);
+	vfprintf(file, fmt, ap);
+	fputs("\n", file);
+	va_end(ap);
+	fclose(file);
+	exit(1);
+}

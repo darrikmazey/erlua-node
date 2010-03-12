@@ -15,15 +15,23 @@ ei_cnode ec;
 int fd = -1;
 
 static void usage(void) {
-	die("USAGE: erlua-node node_name cookie server_node_name");
+	dlog("USAGE: erlua-node node_name cookie server_node_name");
 }
 
 int receive_message(int fd, erlang_msg *msg, ei_x_buff *ibuf) {
-	info("receive_message()");
+	wlog("receive_message()");
 	int status = ei_xreceive_msg(fd, msg, ibuf);
 	return status;
 }
 
+void dump_msg(erlang_msg *msg, ei_x_buff *ibuf)
+{
+	FILE *file;
+	file = fopen("erlua-node.log", "a+");
+	ei_show_recmsg(file, msg, (char *)ibuf);
+	fclose(file);
+}
+	
 int main(int argc, char **argv)
 {
 
@@ -32,15 +40,15 @@ int main(int argc, char **argv)
 		usage();
 	}
 
-	info("erlua-node: starting up...");
+	wlog("erlua-node: starting up...");
 
 	if (ei_connect_init(&ec, argv[1], argv[2], 0) == -1) {
-		die("ERROR: failed to initialize connection");
+		dlog("ERROR: failed to initialize connection");
 	}
 
 	fd = ei_connect(&ec, argv[3]);
 	if (fd < 0) {
-		die("ERROR: failed to connect to erlang node: %s", argv[3]);
+		dlog("ERROR: failed to connect to erlang node: %s", argv[3]);
 	}
 
 	lua_State *L = luaL_newstate();
@@ -57,7 +65,7 @@ int main(int argc, char **argv)
 
 	while (!stop) {
 		status = receive_message(fd, &msg, &ibuf);
-		ei_show_recmsg(stderr, &msg, (char *)&ibuf);
+		dump_msg(&msg, &ibuf);
 	}
 
 	return(0);
